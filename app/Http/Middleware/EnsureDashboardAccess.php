@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use App\Models\User;
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class EnsureDashboardAccess
+{
+    public function handle(Request $request, Closure $next): Response
+    {
+        $user = $request->user();
+
+        if (! $user) {
+            abort(401);
+        }
+
+        if ($user->hasRole(User::ROLE_ADMIN) || $user->can('view_dashboard')) {
+            return $next($request);
+        }
+
+        abort(403);
+    }
+}
+

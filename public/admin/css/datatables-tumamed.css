@@ -1,0 +1,51 @@
+.dt-buttons .btn {
+    margin-right: .25rem;
+    margin-bottom: .25rem;
+    background-color: var(--tm-primary);
+    border-color: var(--tm-primary);
+    color: #fff;
+}
+
+.dt-buttons .btn:hover,
+.dt-buttons .btn:focus,
+.dt-buttons .btn:active {
+    background-color: var(--tm-primary-dark);
+    border-color: var(--tm-primary-dark);
+    color: #fff;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    text-align: right;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    width: 220px;
+    margin-left: .5rem;
+    border-color: #d9e2ec;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+    border-color: var(--tm-primary);
+    box-shadow: 0 0 0 .2rem rgba(19, 174, 156, 0.15);
+}
+
+.dataTables_wrapper .dataTables_paginate .page-item.active .page-link {
+    background-color: var(--tm-primary);
+    border-color: var(--tm-primary);
+}
+
+.dataTables_wrapper .dataTables_paginate .page-link {
+    color: var(--tm-primary);
+}
+
+table.dataTable thead th {
+    white-space: nowrap;
+}
+
+table.dataTable tbody td {
+    vertical-align: middle;
+}
+
+.table-actions {
+    white-space: nowrap;
+}

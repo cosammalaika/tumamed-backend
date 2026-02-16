@@ -1,0 +1,248 @@
+.tm-profile-page {
+    --tm-brand: #13AE9C;
+    --tm-brand-dark: #0C7F72;
+    --tm-border: #E9EEF5;
+    --tm-ink: #0f172a;
+    --tm-muted: #64748b;
+    max-width: 1180px;
+    margin-inline: auto;
+    padding: 4px;
+    font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    position: relative;
+}
+
+.tm-profile-page::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    right: 2%;
+    width: 320px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(19, 174, 156, 0.16) 0%, rgba(19, 174, 156, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.tm-profile-page > .row {
+    position: relative;
+    z-index: 1;
+}
+
+.tm-profile-page .tm-main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tm-profile-page #profile-info,
+.tm-profile-page #security {
+    scroll-margin-top: 90px;
+}
+
+.tm-profile-page .tm-card {
+    border: 1px solid var(--tm-border);
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    background: linear-gradient(180deg, #ffffff 0%, #fcfdfd 100%);
+    overflow: hidden;
+}
+
+.tm-profile-page .profile-summary-card {
+    position: sticky;
+    top: 98px;
+}
+
+.tm-profile-page .tm-compact-card .card-body {
+    padding: 1rem;
+}
+
+.tm-profile-page .tm-avatar-wrap {
+    width: 96px;
+    height: 96px;
+    display: grid;
+    place-items: center;
+    border-radius: 9999px;
+    background: linear-gradient(145deg, var(--tm-brand) 0%, var(--tm-brand-dark) 100%);
+    padding: 3px;
+    box-shadow: 0 12px 28px rgba(19, 174, 156, 0.24);
+}
+
+.tm-profile-page .tm-avatar-inner {
+    width: 90px;
+    height: 90px;
+    font-size: 1.75rem;
+    background: linear-gradient(145deg, var(--tm-brand) 0%, var(--tm-brand-dark) 100%);
+}
+
+.tm-profile-page .tm-profile-name {
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: -0.015em;
+    color: #1f2937;
+}
+
+.tm-profile-page .tm-role-badge {
+    color: var(--tm-brand-dark);
+    background: rgba(19, 174, 156, 0.14);
+    border: 1px solid rgba(19, 174, 156, 0.2);
+    font-weight: 700;
+}
+
+.tm-profile-page .tm-status-badge {
+    color: #127c46;
+    background: rgba(34, 197, 94, 0.14);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    font-weight: 700;
+}
+
+.tm-profile-page .profile-card .card-header {
+    background: linear-gradient(180deg, rgba(19, 174, 156, 0.06) 0%, rgba(19, 174, 156, 0.02) 100%);
+    border-bottom: 1px solid var(--tm-border);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    padding: 1rem 1.25rem 0.9rem;
+    border-left: 3px solid var(--tm-brand);
+}
+
+.tm-profile-page .profile-card .card-header h5 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #0f766e;
+    margin-bottom: 0.2rem;
+}
+
+.tm-profile-page .profile-card .card-header .small {
+    color: var(--tm-muted);
+    font-size: 0.85rem;
+}
+
+.tm-profile-page .profile-card .card-body {
+    padding: 1.15rem 1.25rem 1.25rem;
+}
+
+.tm-profile-page .tm-profile-summary {
+    padding: 1.25rem;
+    background:
+        radial-gradient(circle at 15% -10%, rgba(19, 174, 156, 0.14), rgba(19, 174, 156, 0) 35%),
+        linear-gradient(180deg, #ffffff 0%, #fbfdfc 100%);
+}
+
+.tm-profile-page .tm-summary-section {
+    border: 1px solid var(--tm-border);
+    border-radius: 14px;
+    padding: 0.9rem;
+    background: #ffffff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.tm-profile-page .tm-section-title {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #334155;
+    text-transform: uppercase;
+}
+
+.tm-profile-page .tm-mini-panel {
+    border: 1px solid var(--tm-border);
+    border-radius: 12px;
+    padding: 0 0.65rem;
+    background: linear-gradient(180deg, #fcfefe 0%, #f8fbfb 100%);
+}
+
+.tm-profile-page .tm-btn-outline {
+    border-radius: 11px;
+    border: 1px solid rgba(19, 174, 156, 0.34);
+    color: #0B6B61;
+    background: #fff;
+    font-weight: 700;
+    min-height: 40px;
+    transition: all 0.2s ease;
+}
+
+.tm-profile-page .tm-btn-outline:hover,
+.tm-profile-page .tm-btn-outline:focus {
+    color: #fff;
+    background: var(--tm-brand);
+    border-color: var(--tm-brand);
+    transform: translateY(-1px);
+}
+
+.tm-profile-page .tm-profile-input {
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid #dbe3eb;
+    font-size: 14px;
+    padding-inline: 14px;
+    background-color: #fff;
+    color: var(--tm-ink);
+}
+
+.tm-profile-page .tm-profile-input:disabled {
+    background: #f4f7fb;
+    color: #4b5563;
+}
+
+.tm-profile-page .tm-profile-input:focus {
+    border-color: var(--tm-brand);
+    box-shadow: 0 0 0 0.2rem rgba(19, 174, 156, 0.16);
+}
+
+.tm-profile-page .tm-btn-gradient {
+    min-height: 42px;
+    padding: 0.5rem 1.2rem;
+    border-radius: 11px;
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--tm-brand) 0%, var(--tm-brand-dark) 100%);
+    box-shadow: 0 10px 22px rgba(19, 174, 156, 0.24);
+    transition: all 0.2s ease;
+}
+
+.tm-profile-page .tm-btn-gradient:hover,
+.tm-profile-page .tm-btn-gradient:focus {
+    color: #fff;
+    filter: brightness(0.95);
+    transform: translateY(-1px);
+}
+
+.tm-profile-page .tm-inline-toast {
+    border-radius: 12px;
+    border-color: rgba(25, 135, 84, 0.24);
+    background: rgba(25, 135, 84, 0.08);
+}
+
+.tm-profile-page .profile-meta-list .border-top,
+.tm-profile-page .tm-mini-panel .border-bottom {
+    border-color: var(--tm-border) !important;
+}
+
+.tm-profile-page .profile-meta-list .badge {
+    font-size: 0.72rem;
+}
+
+.tm-profile-page .form-label {
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.tm-profile-page .mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.tm-profile-page .mb-4 {
+    margin-bottom: 1.25rem !important;
+}
+
+@media (max-width: 991.98px) {
+    .tm-profile-page {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .tm-profile-page .profile-summary-card {
+        position: static;
+    }
+}
