@@ -15,10 +15,41 @@ class AuthController extends Controller
 {
     public function register(Request $request, AuditLogger $auditLogger): JsonResponse
     {
+        return $this->performRegister($request, $auditLogger, false);
+    }
+
+    public function patientRegister(Request $request, AuditLogger $auditLogger): JsonResponse
+    {
+        return $this->performRegister($request, $auditLogger, true);
+    }
+
+    public function login(Request $request, AuditLogger $auditLogger): JsonResponse
+    {
+        return $this->performLogin($request, $auditLogger, false);
+    }
+
+    public function patientLogin(Request $request, AuditLogger $auditLogger): JsonResponse
+    {
+        return $this->performLogin($request, $auditLogger, true);
+    }
+
+    public function logout(Request $request): JsonResponse
+    {
+        $request->user()?->currentAccessToken()?->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Logged out successfully.',
+        ]);
+    }
+
+    private function performRegister(Request $request, AuditLogger $auditLogger, bool $patientOnly): JsonResponse
+    {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => ['nullable', 'string', 'max:32'],
         ]);
 
         $role = User::ROLE_PATIENT;
@@ -27,6 +58,7 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'email' => strtolower(trim($validated['email'])),
             'password' => $validated['password'],
+            'phone' => $validated['phone'] ?? null,
             'role' => $role,
             'is_active' => true,
             'pharmacy_id' => null,
@@ -37,24 +69,18 @@ class AuthController extends Controller
 
         $token = $user->createToken('api-token', [$role])->plainTextToken;
 
-        $auditLogger->log('USER_REGISTER', ['email' => $user->email, 'role' => $role], $user, null, $request);
+        $auditLogger->log(
+            $patientOnly ? 'PATIENT_REGISTER' : 'USER_REGISTER',
+            ['email' => $user->email, 'role' => $role],
+            $user,
+            null,
+            $request
+        );
 
-        return response()->json([
-            'success' => true,
-            'token' => $token,
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'role' => $user->role,
-                'is_active' => (bool) $user->is_active,
-                'phone' => $user->phone,
-                'pharmacy_id' => $user->pharmacy_id,
-            ],
-        ], 201);
+        return $this->successAuthResponse($user, $token, 201);
     }
 
-    public function login(Request $request, AuditLogger $auditLogger): JsonResponse
+    private function performLogin(Request $request, AuditLogger $auditLogger, bool $patientOnly): JsonResponse
     {
         $validated = $request->validate([
             'email' => ['required', 'email'],
@@ -67,8 +93,8 @@ class AuthController extends Controller
         if (! $user || ! Hash::check($validated['password'], $user->password)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid credentials',
-            ], 401);
+                'message' => 'Invalid email or password',
+            ], $patientOnly ? 422 : 401);
         }
 
         if (! $user->is_active) {
@@ -78,10 +104,28 @@ class AuthController extends Controller
             ], 403);
         }
 
+        if ($patientOnly && strtoupper((string) $user->role) !== User::ROLE_PATIENT) {
+            return response()->json([
+                'success' => false,
+                'message' => 'This app is for patients only.',
+            ], 403);
+        }
+
         $token = $user->createToken('api-token', [$user->role])->plainTextToken;
 
-        $auditLogger->log('USER_LOGIN', ['email' => $user->email, 'role' => $user->role], null, null, $request);
+        $auditLogger->log(
+            $patientOnly ? 'PATIENT_LOGIN' : 'USER_LOGIN',
+            ['email' => $user->email, 'role' => $user->role],
+            null,
+            null,
+            $request
+        );
 
+        return $this->successAuthResponse($user, $token);
+    }
+
+    private function successAuthResponse(User $user, string $token, int $status = 200): JsonResponse
+    {
         return response()->json([
             'success' => true,
             'token' => $token,
@@ -91,19 +135,10 @@ class AuthController extends Controller
                 'email' => $user->email,
                 'role' => $user->role,
                 'is_active' => (bool) $user->is_active,
+                'status' => $user->is_active ? 'active' : 'disabled',
                 'phone' => $user->phone,
                 'pharmacy_id' => $user->pharmacy_id,
             ],
-        ]);
-    }
-
-    public function logout(Request $request): JsonResponse
-    {
-        $request->user()?->currentAccessToken()?->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Logged out successfully.',
-        ]);
+        ], $status);
     }
 }

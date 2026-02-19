@@ -15,6 +15,23 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    public function index(Request $request)
+    {
+        $limit = max(1, min(50, (int) $request->integer('limit', 10)));
+
+        $orders = Order::query()
+            ->where('user_id', $request->user()->id)
+            ->with(['hospital', 'matchedPharmacy'])
+            ->latest('created_at')
+            ->limit($limit)
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $orders,
+        ]);
+    }
+
     public function store(StoreOrderRequest $request, OrderRoutingService $routingService)
     {
         $data = $request->validated();
