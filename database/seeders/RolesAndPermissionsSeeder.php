@@ -47,8 +47,8 @@ class RolesAndPermissionsSeeder extends Seeder
             'toggle_pharmacy_open',
         ]);
 
-        Role::firstOrCreate(['name' => 'SUPPORT', 'guard_name' => 'web']);
-        Role::firstOrCreate(['name' => 'PATIENT', 'guard_name' => 'web']);
+        Role::firstOrCreate(['name' => User::ROLE_SUPPORT, 'guard_name' => 'web']);
+        Role::firstOrCreate(['name' => User::ROLE_PATIENT, 'guard_name' => 'web']);
 
         User::query()
             ->whereRaw('LOWER(role) = ?', [strtolower(User::ROLE_ADMIN)])

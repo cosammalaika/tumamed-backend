@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ActiveStatusController;
 use App\Http\Controllers\Admin\HospitalController as AdminHospitalTableController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ReportsExportController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,6 +19,8 @@ Route::get('dashboard', \App\Livewire\Admin\DashboardPage::class)
 Route::middleware(['auth', 'verified', 'no-cache', 'active-user', 'role:ADMIN'])->prefix('admin')->group(function () {
     Route::get('dashboard', \App\Livewire\Admin\DashboardPage::class)->middleware('dashboard-access')->name('admin.dashboard');
     Route::get('users', \App\Livewire\Admin\UsersPage::class)->middleware('permission:manage_users')->name('admin.users');
+    Route::get('users/create', [AdminUserController::class, 'create'])->middleware('permission:manage_users')->name('admin.users.create');
+    Route::post('users', [AdminUserController::class, 'store'])->middleware('permission:manage_users')->name('admin.users.store');
     Route::get('hospitals', \App\Livewire\Admin\HospitalsPage::class)->middleware('permission:manage_hospitals')->name('admin.hospitals');
     Route::get('hospitals/datatables', [AdminHospitalTableController::class, 'datatables'])->middleware('permission:manage_hospitals')->name('admin.hospitals.datatables');
     Route::get('pharmacies', \App\Livewire\Admin\PharmaciesPage::class)->middleware('permission:manage_pharmacies')->name('admin.pharmacies');

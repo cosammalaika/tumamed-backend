@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Pharmacy;
 use App\Models\User;
 use Livewire\Component;
 
@@ -21,7 +22,14 @@ class UsersPage extends Component
 
         return view('livewire.admin.users-page', [
             'users' => $users,
+            'pharmacies' => Pharmacy::query()->orderBy('name')->get(['id', 'name', 'is_active']),
+            'roles' => [
+                User::ROLE_ADMIN,
+                User::ROLE_PHARMACY,
+                User::ROLE_SUPPORT,
+                User::ROLE_CUSTOMER,
+                User::ROLE_PATIENT,
+            ],
         ])->layout('components.layouts.app.sidebar', ['title' => __('Users')]);
     }
 }
-

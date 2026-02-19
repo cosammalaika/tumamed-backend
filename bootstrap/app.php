@@ -15,6 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
         \App\Console\Commands\SeedRolesCommand::class,
         \App\Console\Commands\CreateAdminCommand::class,
         \App\Console\Commands\ImportHospitalsCommand::class,
+        \App\Console\Commands\CreateTestPatientCommand::class,
+        \App\Console\Commands\MigratePatientsToUsersCommand::class,
+        \App\Console\Commands\SeedPatientUsersCommand::class,
     ])
     ->withProviders([
         \App\Providers\AuditServiceProvider::class,

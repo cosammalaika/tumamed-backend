@@ -7,15 +7,16 @@ use App\Http\Controllers\Api\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HospitalController;
 use App\Http\Controllers\Api\OrderController;
-use App\Http\Controllers\Api\PatientAuthController;
 use App\Http\Controllers\Api\PatientRequestController;
 use App\Http\Controllers\Api\Pharmacy\OrderPharmacyRequestController;
 use App\Http\Controllers\Api\Pharmacy\PharmacyRequestController;
 use Illuminate\Support\Facades\Route;
 
+Route::post('/auth/register', [AuthController::class, 'register']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/patient/register', [AuthController::class, 'register']);
+Route::post('/patient/login', [AuthController::class, 'login']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/patient/register', [PatientAuthController::class, 'register']);
-Route::post('/patient/login', [PatientAuthController::class, 'login']);
 
 Route::get('/hospitals', [HospitalController::class, 'index']);
 Route::middleware('throttle:patient')->group(function () {
@@ -25,7 +26,8 @@ Route::middleware('throttle:patient')->group(function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/patient/logout', [PatientAuthController::class, 'logout']);
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::post('/patient/logout', [AuthController::class, 'logout']);
 
     Route::post('/orders', [OrderController::class, 'store']);
     Route::post('/orders/{order}/prescriptions', [OrderController::class, 'uploadPrescriptions']);

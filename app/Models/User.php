@@ -20,6 +20,9 @@ class User extends Authenticatable
 
     public const ROLE_ADMIN = 'ADMIN';
     public const ROLE_PHARMACY = 'PHARMACY';
+    public const ROLE_SUPPORT = 'SUPPORT';
+    public const ROLE_CUSTOMER = 'CUSTOMER';
+    public const ROLE_PATIENT = 'PATIENT';
 
     /**
      * The attributes that are mass assignable.
@@ -29,6 +32,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
         'role',
         'is_active',
